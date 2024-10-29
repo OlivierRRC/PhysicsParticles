@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "particle.hpp";
+#include "vector"
 
 class ofApp : public ofBaseApp{
 
@@ -22,6 +23,8 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 
-		std::unique_ptr<BaseParticle> arr[40][40];
+		//std::unique_ptr<BaseParticle> arr[40][40];
+		vector < vector<std::unique_ptr<BaseParticle>>> v;
+		//vector < vector<bool*>> v;
 		
 };
