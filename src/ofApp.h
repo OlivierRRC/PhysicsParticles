@@ -27,5 +27,7 @@ class ofApp : public ofBaseApp{
 		vector<std::unique_ptr<BaseParticle>> v1;
 
 		glm::vec2 windowSize;
+
+		int unitSize = 10;
 		
 };

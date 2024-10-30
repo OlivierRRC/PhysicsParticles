@@ -3,7 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 
-	windowSize = floor(ofGetWindowSize()/10);
+	windowSize = floor(ofGetWindowSize()/ unitSize);
 
 	v = std::vector<std::vector<std::unique_ptr<BaseParticle>>>(windowSize.y);
 
@@ -49,16 +49,16 @@ void ofApp::mouseMoved(int x, int y ){
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
 
-	int clampY = std::clamp(y/10, 0, (int)v.size()-1);
-	int clampX = std::clamp(x/10, 0, (int)v[0].size()-1);
+	int clampY = std::clamp(y/ unitSize, 0, (int)v.size()-1);
+	int clampX = std::clamp(x/ unitSize, 0, (int)v[0].size()-1);
 
 	switch (button)
 	{
 	case 0:
-		v[clampY][clampX] = std::make_unique<Sand>(glm::vec2(clampX, clampY), 10);
+		v[clampY][clampX] = std::make_unique<Sand>(glm::vec2(clampX, clampY), unitSize);
 		break;
 	case 2:
-		v[clampY][clampX] = std::make_unique<Water>(glm::vec2(clampX, clampY), 10);
+		v[clampY][clampX] = std::make_unique<Water>(glm::vec2(clampX, clampY), unitSize);
 		break;
 	default:
 		break;
@@ -87,8 +87,8 @@ void ofApp::mouseExited(int x, int y){
 
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
-	windowSize = floor(ofGetWindowSize() / 10); //get the window size divided by how many pixels the cells should be
-	ofSetWindowShape(windowSize.x*10, windowSize.y*10); //round the window size to snap to be pixel perfect
+	windowSize = floor(ofGetWindowSize() / unitSize); //get the window size divided by how many pixels the cells should be
+	ofSetWindowShape(windowSize.x* unitSize, windowSize.y* unitSize); //round the window size to snap to be pixel perfect
 
 	v.resize(windowSize.y);
 
