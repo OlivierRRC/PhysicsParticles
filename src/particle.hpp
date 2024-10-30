@@ -1,11 +1,6 @@
 #pragma once
 
 #include "ofMain.h"
-#include <iostream>
-#include <string>
-#include <vector>
-#include <memory>
-#include <ctime>
 
 class BaseParticle {
 	public:
