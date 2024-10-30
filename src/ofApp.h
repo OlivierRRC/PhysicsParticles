@@ -23,6 +23,9 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 
+		void resizeVector();
+		void placeParticle(int x, int y, int button);
+
 		vector < vector<std::unique_ptr<BaseParticle>>> v;
 		vector<std::unique_ptr<BaseParticle>> v1;
 
