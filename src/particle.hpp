@@ -9,6 +9,7 @@ class BaseParticle {
 		virtual ~BaseParticle() = default;
 
 		virtual void render();
+		virtual void rules();
 		glm::vec2 position;
 		int scale;
 };
@@ -18,6 +19,7 @@ class Sand : public BaseParticle {
 		Sand(glm::vec2 position, int scale) : BaseParticle(position, scale) {};
 
 		void render() override;
+		void rules() override;
 };
 
 class Water : public BaseParticle {

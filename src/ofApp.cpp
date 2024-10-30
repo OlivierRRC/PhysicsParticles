@@ -6,11 +6,21 @@ void ofApp::setup(){
 	windowSize = floor(ofGetWindowSize()/ unitSize);
 	resizeVector();
 
+	
+
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-
+	for (size_t y = 0; y < v.size(); y++)
+	{
+		for (size_t x = 0; x < v[0].size(); x++)
+		{
+			if (v[y][x] != NULL) {
+				v[y][x]->rules();
+			}
+		}
+	}
 }
 
 //--------------------------------------------------------------
@@ -20,7 +30,10 @@ void ofApp::draw(){
 		for (size_t x = 0; x < v[0].size(); x++)
 		{
 			if (v[y][x] != NULL) {
+				ofPushMatrix();
+				ofTranslate(x*unitSize, y*unitSize);
 				v[y][x]->render();
+				ofPopMatrix();
 			}
 		}
 	}
