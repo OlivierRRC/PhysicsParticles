@@ -25,6 +25,9 @@ class ofApp : public ofBaseApp{
 
 		//std::unique_ptr<BaseParticle> arr[40][40];
 		vector < vector<std::unique_ptr<BaseParticle>>> v;
+		vector<std::unique_ptr<BaseParticle>> v1;
+		//vector<BaseParticle*> v1;
+		//BaseParticle *p = new Sand()
 		//vector < vector<bool*>> v;
 		
 };

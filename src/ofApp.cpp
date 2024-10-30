@@ -1,4 +1,9 @@
 #include "ofApp.h"
+#include <iostream>
+#include <string>
+#include <vector>
+#include <memory>
+#include <ctime>
 
 //--------------------------------------------------------------
 void ofApp::setup(){
@@ -9,12 +14,11 @@ void ofApp::setup(){
 	//vector<std::unique_ptr<BaseParticle>> row(40);
 	//vector<vector<std::unique_ptr<BaseParticle>>> col(40, row);
 
-	std::vector<std::vector<std::unique_ptr<BaseParticle>>> v(40);
+	v = std::vector<std::vector<std::unique_ptr<BaseParticle>>>(40);
 
 	for (auto& row : v) {
 		row.resize(40);
 	}
-
 
 }
 
@@ -25,15 +29,15 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-	//for (size_t y = 0; y < 40; y++)
-	//{
-	//	for (size_t x = 0; x < 40; x++)
-	//	{
-	//		if (arr[x][y] != NULL) {
-	//			arr[x][y]->render();
-	//		}
-	//	}
-	//}
+	for (size_t y = 0; y < 40; y++)
+	{
+		for (size_t x = 0; x < 40; x++)
+		{
+			if (v[x][y] != NULL) {
+				v[x][y]->render();
+			}
+		}
+	}
 }
 
 //--------------------------------------------------------------
@@ -53,8 +57,30 @@ void ofApp::mouseMoved(int x, int y ){
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
-	std::cout << x / 10 << ", " << y / 10 << "\n";
-	//v[x / 10][y / 10] = std::make_unique<Sand>(glm::vec2(x/10,y/10), 10);
+	//std::cout << x / 10 << ", " << y / 10 << "\n";
+	
+	//v1.emplace_back(std::make_unique<BaseParticle>(glm::vec2(x / 10, y / 10), 10));
+
+	//v1[0] = std::make_unique<Sand>(glm::vec2(x / 10, y / 10), 10);
+
+	int clampY = std::clamp(y/10, 0, (int)v.size()-1);
+	int clampX = std::clamp(x/10, 0, (int)v[0].size()-1);
+
+	//std::cout << clampX << ", " << clampY << "\n";
+
+	switch (button)
+	{
+	case 0:
+		v[clampX][clampY] = std::make_unique<Sand>(glm::vec2(clampX, clampY), 10);
+		break;
+	case 2:
+		v[clampX][clampY] = std::make_unique<Water>(glm::vec2(clampX, clampY), 10);
+		break;
+	default:
+		break;
+	}
+
+	
 	//v[0][0] = std::make_unique<BaseParticle>(glm::vec2(x / 10, y / 10), 10);
 	//v[x / 10][y / 10] = true;
 
