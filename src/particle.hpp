@@ -14,6 +14,7 @@ class BaseParticle {
 
 		glm::vec2 position;
 		int scale;
+		virtual float density() const;
 		
 		vector<vector<std::shared_ptr<BaseParticle>>> neighbours;
 };
@@ -24,6 +25,7 @@ class Sand : public BaseParticle {
 
 		void render() override;
 		glm::ivec2 rules() override;
+		float density() const override;
 };
 
 class Water : public BaseParticle {
@@ -31,4 +33,5 @@ public:
 	Water(glm::vec2 position, int scale) : BaseParticle(position, scale) {};
 
 	void render() override;
+	float density() const override;
 };
