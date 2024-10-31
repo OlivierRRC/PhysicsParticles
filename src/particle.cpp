@@ -4,8 +4,12 @@ void BaseParticle::render() {
 	ofSetColor(200, 200, 200);
 	ofRect(0,0, scale, scale);
 }
-void BaseParticle::rules() {
+glm::ivec2 BaseParticle::rules() {
+	return(glm::ivec2(0, 0));
+}
 
+void BaseParticle::setNeighbours(vector<vector<std::shared_ptr<BaseParticle>>> v) {
+	neighbours = v;
 }
 
 void Sand::render() {
@@ -13,8 +17,8 @@ void Sand::render() {
 	ofRect(0, 0, scale, scale);
 }
 
-void Sand::rules() {
-	//position.y += 1;
+glm::ivec2 Sand::rules() {
+	return(glm::ivec2(0, 1));
 }
 
 void Water::render() {

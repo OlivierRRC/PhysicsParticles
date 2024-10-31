@@ -25,9 +25,11 @@ class ofApp : public ofBaseApp{
 
 		void resizeVector();
 		void placeParticle(int x, int y, int button);
+		void gatherNeighbours(int x, int y);
 
-		vector < vector<std::unique_ptr<BaseParticle>>> v;
-		vector<std::unique_ptr<BaseParticle>> v1;
+		bool shiftDown = false;
+
+		vector<vector<std::shared_ptr<BaseParticle>>> v;
 
 		glm::vec2 windowSize;
 

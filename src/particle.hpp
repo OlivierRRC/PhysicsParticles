@@ -9,9 +9,13 @@ class BaseParticle {
 		virtual ~BaseParticle() = default;
 
 		virtual void render();
-		virtual void rules();
+		virtual glm::ivec2 rules();
+		void setNeighbours(vector<vector<std::shared_ptr<BaseParticle>>> v);
+
 		glm::vec2 position;
 		int scale;
+		
+		vector<vector<std::shared_ptr<BaseParticle>>> neighbours;
 };
 
 class Sand : public BaseParticle {
@@ -19,7 +23,8 @@ class Sand : public BaseParticle {
 		Sand(glm::vec2 position, int scale) : BaseParticle(position, scale) {};
 
 		void render() override;
-		void rules() override;
+		glm::ivec2 rules() override;
+		//void setNeighbours(vector<vector<std::unique_ptr<BaseParticle>>>) override;
 };
 
 class Water : public BaseParticle {

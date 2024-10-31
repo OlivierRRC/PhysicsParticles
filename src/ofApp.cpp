@@ -25,32 +25,45 @@ void ofApp::update(){
 	//		}
 	//	}
 	//}
+
+	//for (size_t y = v.size()-1; y != -1; y--) //size_t is unsigned so I have to use a funky for loop
+	//{
+	//	for (size_t x = 0; x < v[0].size(); x++)
+	//	{
+	//		if (v[y][x] != NULL) {
+	//			//v[y][x]->rules();
+	//			if (y + 1 < v.size()) {
+	//				if (v[y + 1][x] == NULL) {
+	//					swap(v[y][x], v[y + 1][x]);
+	//				}
+
+	//				if (x + 1 < v[y].size()) {
+	//					if (v[y + 1][x + 1] == NULL)
+	//					swap(v[y][x], v[y + 1][x+1]);
+	//				}
+
+	//				if ((int)x - 1 >= 0) {//size_t is unsigned so I have to cast to int to check if it's greater than 0;
+	//					if (v[y + 1][x - 1] == NULL) {
+	//						swap(v[y][x], v[y + 1][x - 1]);
+	//					}
+	//				}
+
+	//			}
+	//		}
+	//	}
+	//}
+
 	for (size_t y = v.size()-1; y != -1; y--) //size_t is unsigned so I have to use a funky for loop
 	{
 		for (size_t x = 0; x < v[0].size(); x++)
 		{
 			if (v[y][x] != NULL) {
-				v[y][x]->rules();
-				if (y + 1 < v.size()) {
-					if (v[y + 1][x] == NULL) {
-						swap(v[y][x], v[y + 1][x]);
-					}
-
-					if (x + 1 < v[y].size()) {
-						if (v[y + 1][x + 1] == NULL)
-						swap(v[y][x], v[y + 1][x+1]);
-					}
-
-					if ((int)x - 1 >= 0) {//size_t is unsigned so I have to cast to int to check if it's greater than 0;
-						if (v[y + 1][x - 1] == NULL) {
-							swap(v[y][x], v[y + 1][x - 1]);
-						}
-					}
-
-				}
+				glm::ivec2 delta = v[y][x].get()->rules();
+				swap(v[y][x], v[y + delta.y][x + delta.x]);
 			}
 		}
 	}
+
 }
 
 //--------------------------------------------------------------
@@ -79,11 +92,18 @@ void ofApp::keyPressed(int key){
 			row.resize(windowSize.x);
 		}
 	}
+	//right and left shift keys
+	if (key == 3681 || key == 3680) {
+		shiftDown = true;
+	}
 }
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
-
+	//right and left shift keys
+	if (key == 3681 || key == 3680) {
+		shiftDown = false;
+	}
 }
 
 //--------------------------------------------------------------
@@ -93,11 +113,23 @@ void ofApp::mouseMoved(int x, int y ){
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
+	if (shiftDown) {
+		int clampY = std::clamp(y / unitSize, 0, (int)v.size() - 1);
+		int clampX = std::clamp(x / unitSize, 0, (int)v[0].size() - 1);
+		v[clampY][clampX] = NULL;
+		return;
+	}
 	placeParticle(x, y, button);
 }
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
+	if (shiftDown) {
+		int clampY = std::clamp(y / unitSize, 0, (int)v.size() - 1);
+		int clampX = std::clamp(x / unitSize, 0, (int)v[0].size() - 1);
+		v[clampY][clampX] = NULL;
+		return;
+	}
 	placeParticle(x, y, button);
 }
 
@@ -157,4 +189,28 @@ void ofApp::placeParticle(int x, int y, int button) {
 	default:
 		break;
 	}
+
+	gatherNeighbours(clampX, clampY);
+
+}
+
+void ofApp::gatherNeighbours(int x, int y) {
+	vector<vector<std::shared_ptr<BaseParticle>>> temp;
+	temp.resize(3);
+	for (auto& row : temp) {
+		row.resize(3);
+	}
+	
+	for (int i = -1; i < 2; i++)
+	{
+		for (int j = -1; j < 2; j++)
+		{
+			if (v[y + i][x + j] != NULL) {
+				temp[i + 1][j + 1] = v[y+i][x+j];
+			}
+		}
+	}
+
+	v[y][x];
+
 }
