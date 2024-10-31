@@ -12,12 +12,42 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-	for (size_t y = 0; y < v.size(); y++)
+	//for (size_t y = 0; y < v.size(); y++)
+	//{
+	//	for (size_t x = 0; x < v[0].size(); x++)
+	//	{
+	//		if (v[y][x] != NULL) {
+	//			v[y][x]->rules();
+	//			if (y + 1 < v.size()) {
+	//				swap(v[y][x], v[y+1][x]);
+	//			}
+
+	//		}
+	//	}
+	//}
+	for (size_t y = v.size()-1; y != -1; y--) //size_t is unsigned so I have to use a funky for loop
 	{
 		for (size_t x = 0; x < v[0].size(); x++)
 		{
 			if (v[y][x] != NULL) {
 				v[y][x]->rules();
+				if (y + 1 < v.size()) {
+					if (v[y + 1][x] == NULL) {
+						swap(v[y][x], v[y + 1][x]);
+					}
+
+					if (x + 1 < v[y].size()) {
+						if (v[y + 1][x + 1] == NULL)
+						swap(v[y][x], v[y + 1][x+1]);
+					}
+
+					if ((int)x - 1 >= 0) {//size_t is unsigned so I have to cast to int to check if it's greater than 0;
+						if (v[y + 1][x - 1] == NULL) {
+							swap(v[y][x], v[y + 1][x - 1]);
+						}
+					}
+
+				}
 			}
 		}
 	}
@@ -48,8 +78,6 @@ void ofApp::keyPressed(int key){
 		for (auto& row : v) {
 			row.resize(windowSize.x);
 		}
-		cout << v.size();
-		cout << v[0].size();
 	}
 }
 
