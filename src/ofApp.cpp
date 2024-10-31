@@ -174,6 +174,9 @@ void ofApp::resizeVector() {
 		row.resize(windowSize.x);
 	}
 
+	cout << windowSize << "\n";
+	cout << v.size() << ", " << v[0].size() << "\n";
+
 	//for (size_t y = v.size() - 1; y != -1; y--) //size_t is unsigned so I have to use a funky for loop
 	//{
 	//	for (size_t x = 0; x < v[0].size(); x++)
@@ -221,7 +224,7 @@ void ofApp::gatherNeighbours(int x, int y) {
 				temp[i + 1][j + 1] = std::make_unique<BaseParticle>(glm::vec2(x, y), unitSize);
 				continue;
 			}
-			if (x + j < 0 || x + j > v.size() - 1) {
+			if (x + j < 0 || x + j > v[0].size() - 1) {
 				temp[i + 1][j + 1] = std::make_unique<BaseParticle>(glm::vec2(x, y), unitSize);
 				continue;
 			}
