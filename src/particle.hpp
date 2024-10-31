@@ -33,5 +33,9 @@ public:
 	Water(glm::vec2 position, int scale) : BaseParticle(position, scale) {};
 
 	void render() override;
+	glm::ivec2 rules() override;
 	float density() const override;
+
+	bool left = true;
+
 };

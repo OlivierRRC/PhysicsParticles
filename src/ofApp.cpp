@@ -60,7 +60,10 @@ void ofApp::update(){
 			if (v[y][x] != NULL) {
 				gatherNeighbours(x, y);
 				glm::ivec2 delta = v[y][x].get()->rules();
-				swap(v[y][x], v[y + delta.y][x + delta.x]);
+				if (delta != glm::ivec2(0, 0)) {
+					swap(v[y][x], v[y + delta.y][x + delta.x]);
+					//break;
+				}
 			}
 		}
 	}
