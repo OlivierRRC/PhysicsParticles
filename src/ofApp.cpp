@@ -58,6 +58,7 @@ void ofApp::update(){
 		for (size_t x = 0; x < v[0].size(); x++)
 		{
 			if (v[y][x] != NULL) {
+				gatherNeighbours(x, y);
 				glm::ivec2 delta = v[y][x].get()->rules();
 				swap(v[y][x], v[y + delta.y][x + delta.x]);
 			}
@@ -172,6 +173,17 @@ void ofApp::resizeVector() {
 	for (auto& row : v) {
 		row.resize(windowSize.x);
 	}
+
+	//for (size_t y = v.size() - 1; y != -1; y--) //size_t is unsigned so I have to use a funky for loop
+	//{
+	//	for (size_t x = 0; x < v[0].size(); x++)
+	//	{
+	//		if (v[y][x] != NULL) {
+	//			gatherNeighbours(x, y);
+	//		}
+	//	}
+	//}
+
 }
 
 void ofApp::placeParticle(int x, int y, int button) {
@@ -205,12 +217,21 @@ void ofApp::gatherNeighbours(int x, int y) {
 	{
 		for (int j = -1; j < 2; j++)
 		{
+			if (y + i < 0 || y + i > v.size() - 1) {
+				temp[i + 1][j + 1] = std::make_unique<BaseParticle>(glm::vec2(x, y), unitSize);
+				continue;
+			}
+			if (x + j < 0 || x + j > v.size() - 1) {
+				temp[i + 1][j + 1] = std::make_unique<BaseParticle>(glm::vec2(x, y), unitSize);
+				continue;
+			}
+
 			if (v[y + i][x + j] != NULL) {
 				temp[i + 1][j + 1] = v[y+i][x+j];
 			}
 		}
 	}
 
-	v[y][x];
+	v[y][x]->setNeighbours(temp);
 
 }

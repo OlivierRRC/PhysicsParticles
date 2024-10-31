@@ -18,7 +18,18 @@ void Sand::render() {
 }
 
 glm::ivec2 Sand::rules() {
-	return(glm::ivec2(0, 1));
+	if (neighbours[2][1] == NULL) {
+		return glm::ivec2(0, 1);
+	}
+
+	if (neighbours[2][0] == NULL) {
+		return glm::ivec2(-1, 1);
+	}
+
+	if (neighbours[2][2] == NULL) {
+		return glm::ivec2(1, 1);
+	}
+	return(glm::ivec2(0, 0));
 }
 
 void Water::render() {
