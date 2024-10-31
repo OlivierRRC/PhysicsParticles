@@ -24,7 +24,6 @@ class Sand : public BaseParticle {
 
 		void render() override;
 		glm::ivec2 rules() override;
-		//void setNeighbours(vector<vector<std::unique_ptr<BaseParticle>>>) override;
 };
 
 class Water : public BaseParticle {

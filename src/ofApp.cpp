@@ -177,16 +177,6 @@ void ofApp::resizeVector() {
 	cout << windowSize << "\n";
 	cout << v.size() << ", " << v[0].size() << "\n";
 
-	//for (size_t y = v.size() - 1; y != -1; y--) //size_t is unsigned so I have to use a funky for loop
-	//{
-	//	for (size_t x = 0; x < v[0].size(); x++)
-	//	{
-	//		if (v[y][x] != NULL) {
-	//			gatherNeighbours(x, y);
-	//		}
-	//	}
-	//}
-
 }
 
 void ofApp::placeParticle(int x, int y, int button) {
@@ -204,8 +194,6 @@ void ofApp::placeParticle(int x, int y, int button) {
 	default:
 		break;
 	}
-
-	gatherNeighbours(clampX, clampY);
 
 }
 

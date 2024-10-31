@@ -22,11 +22,11 @@ glm::ivec2 Sand::rules() {
 		return glm::ivec2(0, 1);
 	}
 
-	if (neighbours[2][0] == NULL) {
+	if (neighbours[2][0] == NULL && neighbours[1][0] == NULL) {
 		return glm::ivec2(-1, 1);
 	}
 
-	if (neighbours[2][2] == NULL) {
+	if (neighbours[2][2] == NULL && neighbours[1][2] == NULL) {
 		return glm::ivec2(1, 1);
 	}
 	return(glm::ivec2(0, 0));
