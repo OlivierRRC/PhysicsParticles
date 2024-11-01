@@ -54,25 +54,69 @@ void Water::render() {
 
 glm::ivec2 Water::rules() {
 
+
+
+
 	//check directly below, move directly below
 	if (neighbours[2][1] == NULL || neighbours[2][1]->density() < density()) {
+		lifetime = 5;
 		return glm::ivec2(0, 1);
+	}
+
+	//check bottom left and regular left, move bottom left
+	if (neighbours[2][0] == NULL || neighbours[2][0]->density() < density()) {
+		if (neighbours[1][0] == NULL || neighbours[1][0]->density() < density()) {
+			lifetime = 5;
+			return glm::ivec2(-1, 1);
+		}
+	}
+
+	//check bottom right and regular right, move bottom right
+	if (neighbours[2][2] == NULL || neighbours[2][2]->density() < density()) {
+		if (neighbours[1][2] == NULL || neighbours[1][2]->density() < density()) {
+			lifetime = 5;
+			return glm::ivec2(1, 1);
+		}
+	}
+
+	if (neighbours[1][0] != NULL && neighbours[1][2] != NULL) {
+		lifetime = 5;
+	}
+
+	if (lifetime <= 0) {
+		shared_ptr<Water> water = dynamic_pointer_cast<Water>(neighbours[2][1]);
+		if (water != NULL) {
+			//water->lifetime = 5;
+		}
+		water = dynamic_pointer_cast<Water>(neighbours[0][0]);
+		if (water != NULL) {
+			//water->lifetime = 5;
+		}
+		water = dynamic_pointer_cast<Water>(neighbours[0][2]);
+		if (water != NULL) {
+			//water->lifetime = 5;
+		}
+		return(glm::ivec2(0, 0));
 	}
 
 	if (left) {
 		//check regular left, move left
 		if (neighbours[1][0] == NULL || neighbours[1][0]->density() < density()) {
+			
 			return glm::ivec2(-1, 0);
 		}
 		left = false;
+		lifetime--;
 	}
 
 	if (!left) {
 		//check regular right, move right
 		if (neighbours[1][2] == NULL || neighbours[1][2]->density() < density()) {
+			
 			return glm::ivec2(1, 0);
 		}
 		left = true;
+		lifetime--;
 	}
 
 

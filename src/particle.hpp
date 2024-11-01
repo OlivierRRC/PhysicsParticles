@@ -15,6 +15,8 @@ class BaseParticle {
 		glm::vec2 position;
 		int scale;
 		virtual float density() const;
+
+		bool updated = false;
 		
 		vector<vector<std::shared_ptr<BaseParticle>>> neighbours;
 };
@@ -37,5 +39,7 @@ public:
 	float density() const override;
 
 	bool left = true;
+
+	int lifetime = 5;
 
 };

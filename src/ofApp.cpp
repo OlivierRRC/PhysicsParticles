@@ -16,14 +16,29 @@ void ofApp::update(){
 	{
 		for (size_t x = 0; x < v[0].size(); x++)
 		{
-			if (v[y][x] != NULL) {
+			if (v[y][x] != NULL && v[y][x]->updated == false) {
 				gatherNeighbours(x, y);
 				glm::ivec2 delta = v[y][x].get()->rules();
 				if (delta != glm::ivec2(0, 0)) {
+					v[y][x]->updated = true;
+					shared_ptr<Water> water = dynamic_pointer_cast<Water>(v[y + delta.y][x + delta.x]);
+					if (water!=NULL) {
+						water->lifetime = 5;
+					}
 					swap(v[y][x], v[y + delta.y][x + delta.x]);
 					//break;
 					//return;
 				}
+			}
+		}
+	}
+
+	for (size_t y = v.size() - 1; y != -1; y--) //size_t is unsigned so I have to use a funky for loop
+	{
+		for (size_t x = 0; x < v[0].size(); x++)
+		{
+			if (v[y][x] != NULL) {
+				v[y][x]->updated = false;
 			}
 		}
 	}
@@ -136,10 +151,6 @@ void ofApp::resizeVector() {
 	for (auto& row : v) {
 		row.resize(windowSize.x);
 	}
-
-	cout << windowSize << "\n";
-	cout << v.size() << ", " << v[0].size() << "\n";
-
 }
 
 void ofApp::placeParticle(int x, int y, int button) {
