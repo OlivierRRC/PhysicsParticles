@@ -4,7 +4,10 @@
 
 class BaseParticle {
 	public:
-		BaseParticle(glm::vec2 position, int scale) : position{ position }, scale{ scale } {};
+		BaseParticle(glm::vec2 position, int scale) : position{ position }, scale{ scale } 
+		{
+
+		};
 		
 		virtual ~BaseParticle() = default;
 
@@ -17,13 +20,20 @@ class BaseParticle {
 		virtual float density() const;
 
 		bool updated = false;
+		bool destroy = false;
 		
 		vector<vector<std::shared_ptr<BaseParticle>>> neighbours;
+
+		ofSoundPlayer spawnSound;
 };
 
 class Sand : public BaseParticle {
 	public:
-		Sand(glm::vec2 position, int scale) : BaseParticle(position, scale) {};
+		Sand(glm::vec2 position, int scale) : BaseParticle(position, scale) 
+		{
+			spawnSound.load("C:/Users/oproulx/source/repos/of_v0.12.0/of_v0.12.0_vs_release/apps/myApps/PhysicsParticles/assets/PlaceSand.wav", false);
+			spawnSound.play();
+		};
 
 		void render() override;
 		glm::ivec2 rules() override;
@@ -32,7 +42,11 @@ class Sand : public BaseParticle {
 
 class Water : public BaseParticle {
 public:
-	Water(glm::vec2 position, int scale) : BaseParticle(position, scale) {};
+	Water(glm::vec2 position, int scale) : BaseParticle(position, scale) 
+	{
+		spawnSound.load("C:/Users/oproulx/source/repos/of_v0.12.0/of_v0.12.0_vs_release/apps/myApps/PhysicsParticles/assets/PlaceWater.mp3", false);
+		spawnSound.play();
+	};
 
 	void render() override;
 	glm::ivec2 rules() override;
@@ -40,6 +54,6 @@ public:
 
 	bool left = true;
 
-	int lifetime = 5;
+	int lifetime = 100;
 
 };

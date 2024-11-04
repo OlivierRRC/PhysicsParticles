@@ -33,6 +33,8 @@ class ofApp : public ofBaseApp{
 
 		glm::vec2 windowSize;
 
+		ofSoundPlayer bgMusic;
+
 		int unitSize = 10;
 		
 };
