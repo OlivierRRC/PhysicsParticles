@@ -78,10 +78,6 @@ glm::ivec2 Water::rules() {
 		}
 	}
 
-	//if (neighbours[1][0] != NULL && neighbours[1][2] != NULL) {
-	//	lifetime = 5;
-	//}
-
 	if (lifetime <= 0) {
 
 		destroy = true;
