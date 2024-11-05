@@ -56,4 +56,6 @@ public:
 
 	int lifetime = 100;
 
+	float fullness = 1.0f;
+
 };
