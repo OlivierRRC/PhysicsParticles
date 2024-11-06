@@ -98,36 +98,47 @@ glm::ivec2 Water::rules() {
 	//	return(glm::ivec2(0, 0));
 	//}
 
-	//if (left) {
-	//	//check regular left, move left
-	//	if (neighbours[1][0] == NULL || neighbours[1][0]->density() < density()) {
-	//		
-	//		lifetime--;
-	//		return glm::ivec2(-1, 0);
-	//		
-	//	}
-	//	left = false;
-	//	
-	//}
+	if (left) {
+		//check regular left, move left
+		if (neighbours[1][0] == NULL || neighbours[1][0]->density() < density()) {
+			
+			lifetime--;
+			if (ofRandom(1) > 0.5) {
+				return glm::ivec2(-1, 0);	
+			}
+			else {
+				return glm::ivec2(0, 0);;
+			}
 
-	//if (!left) {
-	//	//check regular right, move right
-	//	if (neighbours[1][2] == NULL || neighbours[1][2]->density() < density()) {
-	//		
-	//		lifetime--;
-	//		return glm::ivec2(1, 0);
-	//		
-	//	}
-	//	left = true;
-	//	
-	//}
+			
+		}
+		left = false;
+		
+	}
+
+	if (!left) {
+		//check regular right, move right
+		if (neighbours[1][2] == NULL || neighbours[1][2]->density() < density()) {
+			
+			lifetime--;
+			if (ofRandom(1) > 0.5) {
+				return glm::ivec2(1, 0);
+			}
+			else {
+				return glm::ivec2(0, 0);;
+			}
+			
+		}
+		left = true;
+		
+	}
 
 	return(glm::ivec2(0, 0));
 }
 
 vector<vector<std::shared_ptr<BaseParticle>>> Water::spread(vector<vector<std::shared_ptr<BaseParticle>>> v) {
 
-	if (fullness > 0.0f) {
+	
 		//bottom neighbour water
 		shared_ptr<Water> water = dynamic_pointer_cast<Water>(neighbours[2][1]);
 		if (water != NULL) {
@@ -136,6 +147,17 @@ vector<vector<std::shared_ptr<BaseParticle>>> Water::spread(vector<vector<std::s
 				destroy = true;
 			}
 		}
+
+		water = dynamic_pointer_cast<Water>(neighbours[1][2]);
+		shared_ptr<Water> water2 = dynamic_pointer_cast<Water>(neighbours[1][0]);
+		if (water != NULL && water2 != NULL) {
+			float newFUll = (water->fullness + water2->fullness + fullness) / 3;
+			water->fullness = newFUll;
+			water2->fullness = newFUll;
+			fullness = newFUll;
+			return v;
+		}
+
 		//left neighbour is water
 		water = dynamic_pointer_cast<Water>(neighbours[1][2]);
 		if (water != NULL) {
@@ -143,6 +165,7 @@ vector<vector<std::shared_ptr<BaseParticle>>> Water::spread(vector<vector<std::s
 				float newFUll = (water->fullness + fullness) / 2;
 				water->fullness = newFUll;
 				fullness = newFUll;
+				return v;
 			}
 		}
 		//right neighbour is water
@@ -152,9 +175,26 @@ vector<vector<std::shared_ptr<BaseParticle>>> Water::spread(vector<vector<std::s
 				float newFUll = (water->fullness + fullness) / 2;
 				water->fullness = newFUll;
 				fullness = newFUll;
+				return v;
 			}
 		}
 
+		if (fullness > 1) {
+			if (neighbours[0][1] == NULL) {
+				shared_ptr temp = std::make_shared<Water>(glm::vec2(position.x, position.y - 1), scale);
+				temp->fullness = fullness - 1;
+				fullness -= temp->fullness;
+				v[position.y - 1][position.x] = temp;
+				return v;
+			}
+			water = dynamic_pointer_cast<Water>(neighbours[0][1]);
+			if (water != NULL) {
+				water->fullness += fullness - 1;
+				fullness = 1;
+			}
+		}
+
+		if (fullness > 0.001f) {
 		//both neighbour is empty
 		if (neighbours[1][2] == NULL && neighbours[1][0] == NULL) {
 			shared_ptr temp = std::make_shared<Water>(glm::vec2(position.x + 1, position.y), scale);
@@ -164,6 +204,7 @@ vector<vector<std::shared_ptr<BaseParticle>>> Water::spread(vector<vector<std::s
 			fullness = fullness / 3;
 			v[position.y][position.x + 1] = temp;
 			v[position.y][position.x - 1] = temp2;
+			return v;
 		}
 
 		//left neighbour is empty
@@ -172,6 +213,7 @@ vector<vector<std::shared_ptr<BaseParticle>>> Water::spread(vector<vector<std::s
 			temp->fullness = fullness / 2;
 			fullness = fullness / 2;
 			v[position.y][position.x + 1] = temp;
+			return v;
 		}
 		//right neighbour is empty
 		if (neighbours[1][0] == NULL) {
@@ -179,19 +221,17 @@ vector<vector<std::shared_ptr<BaseParticle>>> Water::spread(vector<vector<std::s
 			temp->fullness = fullness / 2;
 			fullness = fullness / 2;
 			v[position.y][position.x - 1] = temp;
+			return v;
 		}
 
 
-	}
 
-	if (fullness > 1) {
-		if (position.x < v[0].size() - 1) {
-			shared_ptr temp = std::make_shared<Water>(glm::vec2(position.x, position.y-1), scale);
-			temp->fullness = fullness-1;
-			fullness -= temp->fullness;
-			v[position.y-1][position.x] = temp;
-		}
 	}
+		else {
+			destroy = true;
+		}
+
+
 
 	return v;
 }
