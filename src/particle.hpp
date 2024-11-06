@@ -4,7 +4,7 @@
 
 class BaseParticle {
 	public:
-		BaseParticle(glm::vec2 position, int scale) : position{ position }, scale{ scale } 
+		BaseParticle(glm::ivec2 position, int scale) : position{ position }, scale{ scale }
 		{
 
 		};
@@ -15,11 +15,11 @@ class BaseParticle {
 		virtual glm::ivec2 rules();
 		void setNeighbours(vector<vector<std::shared_ptr<BaseParticle>>> v);
 
-		glm::vec2 position;
+		glm::ivec2 position;
 		int scale;
 		virtual float density() const;
 
-		bool updated = false;
+		bool updated = true;
 		bool destroy = false;
 		
 		vector<vector<std::shared_ptr<BaseParticle>>> neighbours;
@@ -50,12 +50,14 @@ public:
 
 	void render() override;
 	glm::ivec2 rules() override;
+	vector<vector<std::shared_ptr<BaseParticle>>> spread(vector<vector<std::shared_ptr<BaseParticle>>> v);
+
 	float density() const override;
 
 	bool left = true;
 
 	int lifetime = 100;
 
-	float fullness = 1.0f;
+	float fullness = 0.7f;
 
 };

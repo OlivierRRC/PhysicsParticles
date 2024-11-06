@@ -5,7 +5,6 @@ void ofApp::setup(){
 
 	windowSize = floor(ofGetWindowSize()/ unitSize);
 	resizeVector();
-	//
 	bgMusic.load("C:/Users/oproulx/source/repos/of_v0.12.0/of_v0.12.0_vs_release/apps/myApps/PhysicsParticles/assets/BGMusic.mp3", false);
 	bgMusic.play();
 	bgMusic.setLoop(true);
@@ -19,17 +18,26 @@ void ofApp::update(){
 		for (size_t x = 0; x < v[0].size(); x++)
 		{
 			if (v[y][x] != NULL && v[y][x]->updated == false) {
+
 				gatherNeighbours(x, y);
 				glm::ivec2 delta = v[y][x].get()->rules();
+
+				shared_ptr<Water> water = dynamic_pointer_cast<Water>(v[y][x]);
+
 				if (delta != glm::ivec2(0, 0)) {
 					v[y][x]->updated = true;
-					shared_ptr<Water> water = dynamic_pointer_cast<Water>(v[y + delta.y][x + delta.x]);
-					if (water!=NULL) {
-						water->lifetime = 5;
+
+					v[y][x]->position = glm::vec2(x + delta.x, y + delta.y);
+
+					if (v[y + delta.y][x + delta.x] != NULL) {
+						v[y + delta.y][x+ delta.x]->position = glm::ivec2(x, y);
 					}
+
+
 					swap(v[y][x], v[y + delta.y][x + delta.x]);
-					//break;
-					//return;
+				}
+				else if (water != NULL) {
+					v = water->spread(v);
 				}
 			}
 		}
@@ -166,13 +174,13 @@ void ofApp::placeParticle(int x, int y, int button) {
 	switch (button)
 	{
 	case 0:
-		v[clampY][clampX] = std::make_unique<Sand>(glm::vec2(clampX, clampY), unitSize);
+		v[clampY][clampX] = std::make_unique<Sand>(glm::ivec2(clampX, clampY), unitSize);
 		break;
 	case 1:
-		v[clampY][clampX] = std::make_unique<BaseParticle>(glm::vec2(clampX, clampY), unitSize);
+		v[clampY][clampX] = std::make_unique<BaseParticle>(glm::ivec2(clampX, clampY), unitSize);
 		break;
 	case 2:
-		v[clampY][clampX] = std::make_unique<Water>(glm::vec2(clampX, clampY), unitSize);
+		v[clampY][clampX] = std::make_unique<Water>(glm::ivec2(clampX, clampY), unitSize);
 		break;
 	default:
 		break;
@@ -192,11 +200,11 @@ void ofApp::gatherNeighbours(int x, int y) {
 		for (int j = -1; j < 2; j++)
 		{
 			if (y + i < 0 || y + i > v.size() - 1) {
-				temp[i + 1][j + 1] = std::make_unique<BaseParticle>(glm::vec2(x, y), unitSize);
+				temp[i + 1][j + 1] = std::make_unique<BaseParticle>(glm::ivec2(x, y), unitSize);
 				continue;
 			}
 			if (x + j < 0 || x + j > v[0].size() - 1) {
-				temp[i + 1][j + 1] = std::make_unique<BaseParticle>(glm::vec2(x, y), unitSize);
+				temp[i + 1][j + 1] = std::make_unique<BaseParticle>(glm::ivec2(x, y), unitSize);
 				continue;
 			}
 
