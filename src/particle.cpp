@@ -49,6 +49,7 @@ float Sand::density() const {
 
 void Water::render() {
 	ofSetColor(69, 120, 186);
+	//ofRect(0, 0, scale, scale);
 	ofRect(0,scale * (1- fullness), scale, scale*fullness);
 }
 
@@ -145,6 +146,7 @@ vector<vector<std::shared_ptr<BaseParticle>>> Water::spread(vector<vector<std::s
 			if (water->fullness < 1) {
 				water->fullness += fullness;
 				destroy = true;
+				return v;
 			}
 		}
 
