@@ -49,6 +49,14 @@ void ofApp::update(){
 		{
 			if (v[y][x] != NULL) {
 				if (v[y][x]->destroy == true) {
+					
+					vector<vector<std::shared_ptr<BaseParticle>>> empty;
+					empty.resize(3);
+					for (auto& row : empty) {
+						row.resize(3);
+					}
+
+					v[y][x]->setNeighbours(empty);
 					v[y][x] = NULL;
 					continue;
 				}
@@ -109,7 +117,10 @@ void ofApp::mouseDragged(int x, int y, int button){
 	if (shiftDown) {
 		int clampY = std::clamp(y / unitSize, 0, (int)v.size() - 1);
 		int clampX = std::clamp(x / unitSize, 0, (int)v[0].size() - 1);
-		v[clampY][clampX] = NULL;
+		if (v[clampY][clampX] != NULL) {
+			v[clampY][clampX]->destroy = true;
+		}
+		
 		return;
 	}
 	placeParticle(x, y, button);
@@ -120,7 +131,9 @@ void ofApp::mousePressed(int x, int y, int button){
 	if (shiftDown) {
 		int clampY = std::clamp(y / unitSize, 0, (int)v.size() - 1);
 		int clampX = std::clamp(x / unitSize, 0, (int)v[0].size() - 1);
-		v[clampY][clampX] = NULL;
+		if (v[clampY][clampX] != NULL) {
+			v[clampY][clampX]->destroy = true;
+		}
 		return;
 	}
 	placeParticle(x, y, button);
