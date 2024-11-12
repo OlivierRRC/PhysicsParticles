@@ -27,4 +27,9 @@
   <ItemGroup>
     <ResourceCompile Include="icon.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Media Include="data\BGMusic.mp3">
+      <Filter>src</Filter>
+    </Media>
+  </ItemGroup>
 </Project>

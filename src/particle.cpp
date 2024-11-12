@@ -83,22 +83,6 @@ glm::ivec2 Water::rules() {
 		}
 	}
 
-	//if (lifetime <= 0) {
-	//	shared_ptr<Water> water = dynamic_pointer_cast<Water>(neighbours[2][1]);
-	//	if (water != NULL) {
-	//		//water->lifetime = 5;
-	//	}
-	//	water = dynamic_pointer_cast<Water>(neighbours[0][0]);
-	//	if (water != NULL) {
-	//		//water->lifetime = 5;
-	//	}
-	//	water = dynamic_pointer_cast<Water>(neighbours[0][2]);
-	//	if (water != NULL) {
-	//		//water->lifetime = 5;
-	//	}
-	//	return(glm::ivec2(0, 0));
-	//}
-
 	if (left) {
 		//check regular left, move left
 		if (neighbours[1][0] == NULL || neighbours[1][0]->density() < density()) {

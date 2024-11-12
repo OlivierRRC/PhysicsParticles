@@ -5,7 +5,8 @@ void ofApp::setup(){
 
 	windowSize = floor(ofGetWindowSize()/ unitSize);
 	resizeVector();
-	bgMusic.load("C:/Users/oproulx/source/repos/of_v0.12.0/of_v0.12.0_vs_release/apps/myApps/PhysicsParticles/assets/BGMusic.mp3", false);
+	//bgMusic.load("C:/Users/oproulx/source/repos/of_v0.12.0/of_v0.12.0_vs_release/apps/myApps/PhysicsParticles/assets/BGMusic.mp3", false);
+	bgMusic.load("BGMusic.mp3", false);
 	bgMusic.play();
 	bgMusic.setLoop(true);
 
