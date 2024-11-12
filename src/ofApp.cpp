@@ -44,6 +44,10 @@ void ofApp::update(){
 		}
 	}
 
+	//loop through everything
+	//set the particle to be un-updated
+	//remove unused particles from array
+	//remvoe unused particles neighbours
 	for (size_t y = v.size() - 1; y != -1; y--) //size_t is unsigned so I have to use a funky for loop
 	{
 		for (size_t x = 0; x < v[0].size(); x++)
