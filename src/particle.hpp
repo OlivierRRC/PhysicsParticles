@@ -4,10 +4,7 @@
 
 class BaseParticle {
 	public:
-		BaseParticle(glm::ivec2 position, int scale) : position{ position }, scale{ scale }
-		{
-
-		};
+		BaseParticle(glm::ivec2 position, int scale) : position{ position }, scale{ scale }{};
 		
 		virtual ~BaseParticle() = default;
 
@@ -59,5 +56,4 @@ public:
 	int lifetime = 100;
 
 	float fullness = 1.0f;
-
 };
